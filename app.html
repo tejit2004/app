@@ -1,0 +1,36 @@
+<ion-menu [content]="content">
+
+  <ion-toolbar primary>
+    <ion-title>NetCONNECT</ion-title>
+  </ion-toolbar>
+
+  <ion-content>
+    <ion-list *ngFor="#p of pages">
+      <ion-list-header>
+        {{p.name}}
+        <ion-icon name="arrow-forward" item-right></ion-icon>
+      </ion-list-header>
+      <button tappable ion-item *ngFor="#inner of p.Action" on-tap="openPage(inner)">
+        {{inner.title}}
+      </button>
+    </ion-list>
+
+    <!--<ion-item-group>
+
+      <ion-item-divider light>A</ion-item-divider>
+      <ion-item>Angola</ion-item>
+      <ion-item>Argentina</ion-item>
+
+      <ion-item-divider light>B</ion-item-divider>
+
+    </ion-item-group>-->
+
+  </ion-content>
+
+  <ion-toolbar position="bottom" primary>
+    <ion-title (click)="Logout()">Logout</ion-title>
+  </ion-toolbar>
+
+</ion-menu>
+
+<ion-nav id="nav" [root]="rootPage" #content swipe-back-enabled="false"></ion-nav>
