@@ -26,7 +26,7 @@ export class DomainAvailabilityPage {
   private availabilityResult:boolean;
   constructor(fb: FormBuilder, private nav: NavController, private httpService: Http, private commonservice: CommonService) {
         this.domainForm = fb.group({
-            'domainName': ['', Validators.compose([Validators.required, Validators.pattern('[0-9]{10,11}')])]
+            'domainName': ['', Validators.compose([Validators.required, Validators.pattern('[A-Za-z0-9-]+')])]
         });
 
         this.domainName = this.domainForm.controls['domainName'];
@@ -64,30 +64,20 @@ export class DomainAvailabilityPage {
          if(this.domainName.valid)
          {
            this.validForm = true;
+           let clientID = sessionStorage.getItem("clientID");
            //this.url = 'http://nc2.cerberusnetworks.co.uk/mobile/ionic/broadband.php?type=cli&telephone='+this.telephone.value;
-           this.url = this.commonservice.APIUrl+'check_efm_availability.php?type=telephone&telephone='+this.efm_telephone.value;
-         }
-         else if(!this.commonservice.CheckPostcode(this.efm_postcode.value))
-         {
-           Toast.show("Invalid Postcode.", "3000", "bottom").subscribe(
-             toast => {
-               console.log(toast);
-             }
-           );
-           this.validForm = false;
-           return false;
+           this.url = this.commonservice.APIUrl+'domain_availability.php?clientID=clientID&domain='+this.domainName.value;
          }
          else
          {
             this.validForm = true;
-            this.url = this.commonservice.APIUrl+'check_efm_availability.php?type=postcode&efm_postcode='+this.efm_postcode.value;
          }
 
 
 
          if(this.validForm) {
 
-           this.EFMavailabilityResult = false;
+           this.availabilityResult = false;
            this.presentLoading();
            this.http.get(this.url).subscribe((response) => {
 
@@ -98,7 +88,7 @@ export class DomainAvailabilityPage {
 
              if(this.results.ret == true)
              {
-                   this.EFMavailabilityResult = true;
+                   this.availabilityResult = true;
              }
              else
              {
@@ -116,6 +106,6 @@ export class DomainAvailabilityPage {
 
      EnableSearch()
      {
-       this.EFMavailabilityResult = false;
+       this.availabilityResult = false;
      }
 }
