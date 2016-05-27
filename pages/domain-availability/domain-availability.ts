@@ -81,14 +81,13 @@ export class DomainAvailabilityPage {
            this.presentLoading();
            this.http.get(this.url).subscribe((response) => {
 
-
              this.results = response.json();
-
-             //console.log(this.results);
+             console.log(this.results.ret);
 
              if(this.results.ret == true)
              {
                    this.availabilityResult = true;
+                   this.results = response.json().results;
              }
              else
              {

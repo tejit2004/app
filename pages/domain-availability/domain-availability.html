@@ -25,4 +25,18 @@
       <button type="submit" class="custom-button" [disabled]="!domainName.valid" block>Submit</button>
   </form>
 
+  <div [ngClass]="availabilityResult?'showcontent':'hidecontent'">
+    <ion-card *ngFor="#result of results">
+      <ion-card-content style="padding:0;">
+        <ion-row>
+          <ion-col width-67>{{result.domain_name}}</ion-col>
+          <ion-col width-33>
+            <img src="{{result.image_path}}" style="width:auto;display:inline;">
+            &nbsp;{{result.domainAvailability}}
+            <ion-icon name="information-circle" isActive="true" (click)="presentError('Information', result.tooltip)" *ngIf="result.display_tooltip"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
