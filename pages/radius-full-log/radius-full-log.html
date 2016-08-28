@@ -1,0 +1,37 @@
+<!--
+  Generated template for the RadiusFullLogPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+<ion-navbar primary>
+  <button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+  <ion-title>Radius Full Log</ion-title>
+  <ion-buttons end *ngIf="availabilityResult">
+      <button on-tap="onSubmit()">
+          <ion-icon name="refresh"></ion-icon>
+      </button>
+  </ion-buttons>
+</ion-navbar>
+</ion-header>
+
+<ion-content padding class="radius-full-log">
+    <div *ngIf="!isCount && availabilityResult">
+      <ion-card>
+        <ion-card-content>
+            <font color="red"><b>No log found.</b></font>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+      <div *ngIf="isCount">
+        <ion-card *ngFor="let result of results.data" [ngClass]="result!=''?'showcontent':'hidecontent'">
+          <ion-card-content>
+              {{result}}
+          </ion-card-content>
+        </ion-card>
+      </div>
+</ion-content>

@@ -1,21 +1,59 @@
-<ion-navbar *navbar primary>
+<ion-header>
+<ion-navbar primary>
   <button menuToggle>
     <ion-icon name="menu"></ion-icon>
   </button>
-  <ion-title>My First List</ion-title>
+  <ion-title>Home</ion-title>
 </ion-navbar>
-
+</ion-header>
 <ion-content>
-  <ion-list>
-    <button ion-item *ngFor="#item of items" (click)="itemTapped($event, item)">
-      <ion-icon name="{{item.icon}}" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
+  <ion-list no-border>
+    <ion-list-header>
+      Cases
+    </ion-list-header>
+    <ion-item>
+      <ion-label><a (click)="GotoCases()">Open Cases</a></ion-label>
+      <div item-right *ngIf="available==false"><ion-spinner name="dots"></ion-spinner></div>
+      <ion-badge item-right>{{results.ActiveCases}}</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>Closed Cases</ion-label>
+      <div item-right *ngIf="available==false"><ion-spinner name="dots"></ion-spinner></div>
+      <ion-badge item-right>{{results.ClosedCases}}</ion-badge>
+    </ion-item>
   </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
+
+
+  <ion-list>
+    <ion-list-header>
+      Services
+    </ion-list-header>
+    <ion-item>
+      <ion-label><a (click)="GotoServices('Live')">Active DSL Lines</a></ion-label>
+      <div item-right *ngIf="available==false"><ion-spinner name="dots"></ion-spinner></div>
+      <ion-badge item-right>{{results.LiveLines}}</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label><a (click)="GotoServices('On Order')">Services On Order</a></ion-label>
+      <div item-right *ngIf="available==false"><ion-spinner name="dots"></ion-spinner></div>
+      <ion-badge item-right>{{results.OnOrderLines}}</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label><a (click)="GotoServices('Awaiting Tail Order')">Services Awaiting Tail Order</a></ion-label>
+      <div item-right *ngIf="available==false"><ion-spinner name="dots"></ion-spinner></div>
+      <ion-badge item-right>{{results.TailOrderLines}}</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>Services Pending Order</ion-label>
+      <div item-right *ngIf="available==false"><ion-spinner name="dots"></ion-spinner></div>
+      <ion-badge item-right>{{results.PendingOrderLines}}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Service Status</ion-label>
+      <button clear item-right (click)="gotoServiceStatus()">View</button>
+    </ion-item>
+  </ion-list>
 </ion-content>

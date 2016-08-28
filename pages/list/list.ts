@@ -1,35 +1,101 @@
-import {Page, NavController, NavParams} from 'ionic-angular';
-import {ItemDetailsPage} from '../item-details/item-details';
+import { Component} from '@angular/core';
+import { NavController, MenuController, NavParams, AlertController, LoadingController, Platform} from 'ionic-angular';
+import {Toast, InAppBrowser} from 'ionic-native';
+import {HTTP_PROVIDERS, Http} from '@angular/http';
+import {CommonService} from '../../providers/common-service/common-service';
+import {CasesPage} from '../cases/cases';
+import {ServiceResultPage} from '../service-result/service-result';
+import {ServiceStatusPage} from '../service-status/service-status';
 
-
-@Page({
-  templateUrl: 'build/pages/list/list.html'
+@Component({
+  templateUrl: 'build/pages/list/list.html',
+  providers: [HTTP_PROVIDERS, CommonService]
 })
 export class ListPage {
-  selectedItem: any;
-  icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
+  http:Http;
+  results:any;
+  loading:any;
+  url:any;
+  available:boolean;
 
-  constructor(private nav: NavController, navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
+  constructor(private nav: NavController, private httpService: Http, private commonservice: CommonService, private platform: Platform, private menu: MenuController, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {
 
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
-    this.items = [];
-    for(let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+    this.http = httpService;
+    this.commonservice = commonservice;
+    this.results = [];
+    //this.menu.swipeEnable(true);
+    this.available = false;
+    this.onLoad();
   }
 
-  itemTapped(event, item) {
-    this.nav.push(ItemDetailsPage, {
-      item: item
-    });
+  public presentLoading() {
+     this.loading = this.loadingCtrl.create({
+       content: "Please wait...",
+       duration: 0,
+       dismissOnPageChange: false
+     });
+     this.loading.present();
+   }
+
+   presentError(title, msg) {
+
+     let alert = this.alertCtrl.create({
+       title: title,
+       subTitle: msg,
+       buttons: ['OK']
+     });
+     alert.present();
+   }
+
+   Launch(url) {
+     this.platform.ready().then(() => {
+           InAppBrowser.open(url, "_system", "location=true");
+       });
+   }
+
+   GotoCases() {
+     this.nav.push(CasesPage);
+   }
+
+   GotoServices(type) {
+     this.nav.push(ServiceResultPage, {OrderType:type});
+   }
+
+   gotoServiceStatus() {
+     this.nav.push(ServiceStatusPage);
+   }
+
+  onLoad()
+  {
+
+      let connection = this.commonservice.CheckConnection();
+
+      if(connection === false)
+      {
+        //this.presentError('Error', 'Please check your Network connection.');
+        this.commonservice.createTimeout(300).then(() => {
+          Toast.show(this.commonservice.networkMsg, this.commonservice.networkMsgTime, this.commonservice.networkMsgpos).subscribe(
+            toast => {
+              console.log(toast);
+            }
+          );
+        })
+        return false;
+      }
+
+     let clientID = sessionStorage.getItem("clientID");
+     this.url = this.commonservice.APIUrl+'home.php?ClientID='+clientID;
+
+     //this.presentLoading();
+     this.http.get(this.url).subscribe((response) => {
+       this.available = true;
+       this.results = response.json();
+       //this.loading.dismiss();
+      },
+      (error) => {
+          //this.presentError('Error', 'Unexpected error. Please try again.');
+          this.presentError('Error', 'Unexpected error. Please try again.');
+      },
+      () => {  })
   }
 }

@@ -1,0 +1,234 @@
+<!--
+  Generated template for the ServiceDetailPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+<ion-navbar primary>
+  <button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+  <ion-title>Service Detail</ion-title>
+  <ion-buttons end *ngIf="availabilityResult">
+      <button (click)="presentActionSheet()">
+          <ion-icon name="more"></ion-icon>
+      </button>
+  </ion-buttons>
+</ion-navbar>
+</ion-header>
+<ion-content padding class="service-detail">
+  <div>
+  <!--<ion-slides pager>
+
+  <ion-slide>-->
+
+    <ion-card>
+      <ion-card-header>
+        Inventory Detail
+
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col width-33><b>Inventory ID</b></ion-col>
+          <ion-col width-75>{{inventoryID}}   <a (click)="gotoLog()">
+              GO
+          </a></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Order ID</b></ion-col>
+          <ion-col width-75>{{results.orderID}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Serial Number</b></ion-col>
+          <ion-col width-75>{{results.tel_no}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Name</b></ion-col>
+          <ion-col width-75>{{results.name}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Service Tag</b></ion-col>
+          <ion-col width-75>{{results.service_tag}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Manufacturer</b></ion-col>
+          <ion-col width-75>{{results.manufacturer}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Model</b></ion-col>
+          <ion-col width-75>{{results.model}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Product Type</b></ion-col>
+          <ion-col width-75>{{type}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Product Description</b></ion-col>
+          <ion-col width-75>{{results.productdesc}}</ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  <!--</ion-slide>
+
+  <ion-slide>-->
+
+    <ion-card>
+      <ion-card-header>
+        Site Detail
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col width-33><b>Contact Name</b></ion-col>
+          <ion-col width-75>{{results.ContactName}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Company</b></ion-col>
+          <ion-col width-75>{{results.CompanyName}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Address</b></ion-col>
+          <ion-col width-75>{{results.Address1}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>City</b></ion-col>
+          <ion-col width-75>{{results.City}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>County</b></ion-col>
+          <ion-col width-75>{{results.County}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>PostCode</b></ion-col>
+          <ion-col width-75>{{results.PostCode}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Contact Telephone</b></ion-col>
+          <ion-col width-75>{{results.Telephone}}</ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  <!--</ion-slide>
+
+  <ion-slide>-->
+
+    <ion-card [ngClass]="type=='Connection'?'showcontent':'hidecontent'" >
+      <ion-card-header>
+        DSL Detail
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col width-33><b>CLI Number</b></ion-col>
+          <ion-col width-75>{{results.DSLLineTelephone}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Order Type</b></ion-col>
+          <ion-col width-75>{{results.OrderType}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Order Reference</b></ion-col>
+          <ion-col width-75>{{results.ClientOrderRef}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Cerberus OrderID</b></ion-col>
+          <ion-col width-75>{{results.orderID}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Planned Live Date</b></ion-col>
+          <ion-col width-75>{{results.PlannedDeliveryDate}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Actual Live Date</b></ion-col>
+          <ion-col width-75>{{results.DeliveryDate}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Order Stage</b></ion-col>
+          <ion-col width-75>{{results.orderStage}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>PPP Username</b></ion-col>
+          <ion-col width-75>{{results.PPP_Username}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>PPP Password</b></ion-col>
+          <ion-col width-75>{{results.PPP_Password}}</ion-col>
+        </ion-row>
+        <!--<div *ngIf="results.nIPs > 0">
+          <ion-row>
+            <ion-col width-33><b>IPv4 Subnet</b></ion-col>
+            <ion-col width-75>{{results.ipv4_subnet}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col width-33><b>IPv6 Subnet</b></ion-col>
+            <ion-col width-75>{{results.ipv6_subnet}}</ion-col>
+          </ion-row>
+        </div>
+        <div *ngIf="results.nIPs == 0 && !ParentChildAvailable">
+            <ion-row>
+              <ion-col width-33><b>IPv4 Subnet</b></ion-col>
+              <ion-col width-75>
+                Dynamic IP
+                <button clear item-right (click)="showDynamicIP()" style="margin:0 0 8px 0;height:1rem;font-size:1rem;">Show Last Dynamic IP assigned</button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col width-33><b>IPv6 Subnet</b></ion-col>
+              <ion-col width-75>{{results.ipv6_subnet}}</ion-col>
+            </ion-row>
+        </div>-->
+        <div *ngIf="(results.nIPs > 0) || (results.nIPs == 0 && !ParentChildAvailable)">
+          <ion-row>
+            <ion-col width-33><b>IPv4 Subnet</b></ion-col>
+            <ion-col width-75 *ngIf="results.nIPs > 0">
+              {{results.ipv4_subnet}}
+              <button clear item-right (click)="pingIP()" *ngIf="OrderLive" style="margin:0 0 8px 0;height:1.2rem;font-size:1.2rem;">Ping</button>
+            </ion-col>
+
+            <ion-col width-75 *ngIf="results.nIPs == 0 && !ParentChildAvailable">
+              Dynamic IP
+              <button clear item-right (click)="showDynamicIP()" style="margin:0 0 8px 0;height:1.2rem;font-size:1.2rem;">Show Last Dynamic IP assigned</button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col width-33><b>IPv6 Subnet</b></ion-col>
+            <ion-col width-75>{{results.ipv6_subnet}}</ion-col>
+          </ion-row>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  <!--</ion-slide>
+
+  <ion-slide>-->
+
+    <ion-card [ngClass]="type=='Domain'?'showcontent':'hidecontent'">
+      <ion-card-header>
+        Domain Detail
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row>
+          <ion-col width-33><b>Domain Name</b></ion-col>
+          <ion-col width-75>{{results.domain_name}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Registration Status</b></ion-col>
+          <ion-col width-75>{{results.reg_status}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Registration Date</b></ion-col>
+          <ion-col width-75>{{results.reg_date}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Expiry Date</b></ion-col>
+          <ion-col width-75>{{results.expiry_date}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col width-33><b>Auto-Renew</b></ion-col>
+          <ion-col width-75>{{results.auto_renew}}</ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  <!--</ion-slide>
+
+</ion-slides>-->
+  </div>
+</ion-content>

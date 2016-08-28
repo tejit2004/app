@@ -1,0 +1,17 @@
+.service-detail {
+  scroll-content {
+    padding:4px;
+  }
+
+  ion-card > ion-card-content {
+    padding:0;
+    font-size: 1.2rem;
+  }
+
+  .slide-zoom {
+    text-align: left;
+  }
+
+  ion-row:nth-child(even) {background: #f5f5f5;}
+  ion-row:nth-child(odd) {background: #FFF;}
+}

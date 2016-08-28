@@ -1,0 +1,45 @@
+<!--
+  Generated template for the ServiceResultPage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar primary>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Service Result</ion-title>
+  </ion-navbar>
+
+  <ion-card style="border-radius:0;margin:0;">
+    <ion-card-header class="cases_header">
+      <ion-row>
+        <ion-col width-25>Inventory</ion-col>
+        <ion-col width-25>SrNo/CLI</ion-col>
+        <ion-col [ngClass]="orient=='landscape' && showadditionalfields?'width-25':'width-50'">Order Ref</ion-col>
+        <ion-col showWhen="landscape" width-25 *ngIf="showadditionalfields">Planned Del.Date</ion-col>
+      </ion-row>
+    </ion-card-header>
+  </ion-card>
+</ion-header>
+
+
+<ion-content padding padding class="service-result">
+  <div [ngClass]="availabilityResult?'showcontent':'hidecontent'" *ngIf="count">
+    <ion-card>
+      <ion-card-content>
+          <ion-row *ngFor="let result of results.results">
+            <ion-col width-25><b><a (click)="idTapped($event, result.ID, result.type)">{{result.ID}}</a></b></ion-col>
+            <ion-col width-25>{{result.ShortSerialNumber}}</ion-col>
+            <ion-col [ngClass]="orient=='landscape' && showadditionalfields?'width-25':'width-50'">{{result.ShortorderRef}}</ion-col>
+            <ion-col showWhen="landscape" width-25 *ngIf="showadditionalfields">{{result.planned_ddate}}</ion-col>
+          </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div *ngIf="!count && availabilityResult" style="text-align:center;color:red;margin-top:20px;">
+    No {{OrderType}} Lines Found.
+  </div>
+</ion-content>
